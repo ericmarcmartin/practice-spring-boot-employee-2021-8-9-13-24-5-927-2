@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class EmployeeService {
 
     public Employee create(Employee employee) {
         Integer companyId = employee.getCompanyId();
-        if(nonNull(companyId)){
+        if (nonNull(companyId)) {
             companyRepository.findById(companyId)
-                    .orElseThrow(() -> new EmployeeNotFoundException("Company ID not found."));
+                    .orElseThrow(() -> new EmployeeNotFoundException(companyId));
         }
 
         return employeeRepository.save(employee);
@@ -42,7 +42,7 @@ public class EmployeeService {
     public Employee getById(Integer id) {
         return employeeRepository
                 .findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee ID not found."));
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     public List<Employee> getByGender(String gender) {
@@ -50,7 +50,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getByPageIndexAndPageSize(Integer pageIndex, Integer pageSize) {
-        return employeeRepository.findAll(PageRequest.of(pageIndex-1, pageSize)).toList();
+        return employeeRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).toList();
     }
 
     public Employee update(Integer id, Employee employeeToBeUpdated) {
@@ -59,11 +59,11 @@ public class EmployeeService {
                     employeeToBeUpdated.setId(id);
                     return employeeRepository.save(employeeToBeUpdated);
                 })
-                .orElseThrow(() -> new EmployeeNotFoundException(id.toString()));
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     public void delete(Integer id) {
-        employeeRepository.delete(employeeRepository.findById(id).orElseThrow(null));
+        employeeRepository.delete(employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id)));
     }
 
 }

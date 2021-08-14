@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 public class EmployeeNotFoundException extends RuntimeException{
 
-    public EmployeeNotFoundException(String message){
-        super(format("Employee ID %s not found.", message));
+    public EmployeeNotFoundException(Integer id){
+        super(format("Employee ID %d not found.", id));
     }
 }

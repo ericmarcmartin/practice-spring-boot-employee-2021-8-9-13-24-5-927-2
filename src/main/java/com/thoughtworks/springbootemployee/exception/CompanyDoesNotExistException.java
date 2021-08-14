@@ -1,9 +1,9 @@
 package com.thoughtworks.springbootemployee.exception;
 
+import static java.lang.String.format;
+
 public class CompanyDoesNotExistException extends RuntimeException{
-    private String message;
     public CompanyDoesNotExistException(String message){
-        super(message);
-//        super("Company ID does not exist in our records.");
+        super(format("Employee ID %s not found.", message));
     }
 }
