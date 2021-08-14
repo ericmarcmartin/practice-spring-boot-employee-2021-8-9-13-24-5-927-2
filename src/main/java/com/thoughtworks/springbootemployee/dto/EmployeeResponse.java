@@ -5,6 +5,7 @@ import javax.persistence.JoinColumn;
 
 public class EmployeeResponse {
 
+    private Integer id;
     public String name;
     public Integer age;
     public String gender;
@@ -17,11 +18,20 @@ public class EmployeeResponse {
     }
 
     public EmployeeResponse(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
