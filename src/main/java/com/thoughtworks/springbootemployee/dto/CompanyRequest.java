@@ -5,22 +5,15 @@ import com.thoughtworks.springbootemployee.entity.Employee;
 import java.util.List;
 
 public class CompanyRequest {
-    Integer id;
     String companyName;
     List<Employee> employees;
 
     public CompanyRequest() {
-
     }
 
-    public CompanyRequest(Integer id, String companyName, List<Employee> employees) {
-        this.id = id;
+    public CompanyRequest(String companyName, List<Employee> employees) {
         this.companyName = companyName;
         this.employees = employees;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getCompanyName() {
@@ -33,5 +26,9 @@ public class CompanyRequest {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }

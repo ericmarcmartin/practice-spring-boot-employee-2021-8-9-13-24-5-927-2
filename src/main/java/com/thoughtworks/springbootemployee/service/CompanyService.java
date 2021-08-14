@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -36,7 +38,8 @@ public class CompanyService {
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        return employeeRepository.findEmployeesByCompanyId(companyId);
+        return employeeRepository.findAll().stream().filter(employee -> employee.getCompanyId().equals(companyId))
+                .collect(Collectors.toList());
     }
 
     public List<Company> getByPageIndexAndPageSize(Integer pageIndex, int pageSize) {
