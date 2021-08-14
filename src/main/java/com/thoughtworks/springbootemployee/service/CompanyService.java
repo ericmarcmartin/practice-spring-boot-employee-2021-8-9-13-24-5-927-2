@@ -44,8 +44,8 @@ public class CompanyService {
 
     }
 
-    public void createCompany(Company company) {
-        companyRepository.save(company);
+    public Company createCompany(Company company) {
+        return companyRepository.save(company);
     }
 
     public Company update(int companyId, Company companyToBeUpdated) {
