@@ -12,7 +12,7 @@ public class Company {
     private String companyName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
-    private List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees;
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;

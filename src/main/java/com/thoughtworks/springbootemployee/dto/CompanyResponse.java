@@ -6,7 +6,6 @@ import java.util.List;
 
 public class CompanyResponse {
     private Integer id;
-
     private String companyName;
     private Integer employeeNumber;
     private List<Employee> employees;
@@ -48,5 +47,8 @@ public class CompanyResponse {
         return employees;
     }
 
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
 
