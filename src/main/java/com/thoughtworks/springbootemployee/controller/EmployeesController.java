@@ -25,8 +25,8 @@ class EmployeesController {
     
 
     @GetMapping
-    public List<Employee> getEmployees() {
-        return employeeService.getAllEmployees();
+    public List<EmployeeResponse> getEmployees() {
+        return employeeMapper.toResponse(employeeService.getAllEmployees());
     }
 
     @GetMapping(path = "/{id}")
@@ -35,24 +35,24 @@ class EmployeesController {
     }
 
     @RequestMapping(params = "gender")
-    public List<Employee> getEmployeesByGender(@RequestParam String gender) {
-        return employeeService.getByGender(gender);
+    public List<EmployeeResponse> getEmployeesByGender(@RequestParam String gender) {
+        return employeeMapper.toResponse(employeeService.getByGender(gender));
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<Employee> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
-        return employeeService.getByPageIndexAndPageSize(pageIndex, pageSize);
+    public List<EmployeeResponse> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
+        return employeeMapper.toResponse(employeeService.getByPageIndexAndPageSize(pageIndex, pageSize));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return employeeService.create(employeeMapper.toEntity(employeeRequest));
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        return employeeMapper.toResponse(employeeService.create(employeeMapper.toEntity(employeeRequest)));
     }
 
     @PutMapping(path = "/{id}")
-    public Employee updateEmployee(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
-        return employeeService.update(id, employeeMapper.toEntity(employeeRequest));
+    public EmployeeResponse updateEmployee(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
+        return employeeMapper.toResponse(employeeService.update(id, employeeMapper.toEntity(employeeRequest)));
     }
 
     @DeleteMapping("/{id}")
