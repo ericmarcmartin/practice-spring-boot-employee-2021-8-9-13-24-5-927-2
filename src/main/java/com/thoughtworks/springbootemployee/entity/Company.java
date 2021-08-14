@@ -7,12 +7,12 @@ import java.util.List;
 @Entity
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
-    String companyName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String companyName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
-    List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees = new ArrayList<>();
 
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
