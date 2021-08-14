@@ -4,22 +4,19 @@ import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,6 +52,24 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].companyName").value("Alibaba"))
                 .andExpect(jsonPath("$[0].employees").isArray());
 
+    }
+
+    @Test
+    public void should_create_company_when_call_create_api_given_company_request() throws Exception {
+        // given
+        employeeRepository.save(employeesDataFactory().get(0));
+        String employeeJson = "{\n" +
+                "        \"companyName\": \"Wallmart\"\n" +
+                "    }";
+
+        // when
+        // then
+        mockMvc.perform(post("/companies")
+                .contentType(APPLICATION_JSON)
+                .content(employeeJson))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.companyName").value("Wallmart"));
     }
 
     private List<Company> companiesDataFactory() {

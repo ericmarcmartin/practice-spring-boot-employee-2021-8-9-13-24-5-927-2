@@ -4,10 +4,13 @@ import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import org.springframework.beans.BeanUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @Component
 public class CompanyMapper {
@@ -15,7 +18,9 @@ public class CompanyMapper {
         CompanyResponse companyResponse = new CompanyResponse();
         BeanUtils.copyProperties(company, companyResponse);
 
-        companyResponse.setEmployeeNumber(company.getEmployees().size());
+        if(nonNull(company.getEmployees())) {
+            companyResponse.setEmployeeNumber(company.getEmployees().size());
+        }
 
         return companyResponse;
     }
