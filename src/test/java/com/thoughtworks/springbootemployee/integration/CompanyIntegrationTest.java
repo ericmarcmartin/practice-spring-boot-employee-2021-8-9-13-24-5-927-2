@@ -88,7 +88,7 @@ public class CompanyIntegrationTest {
     }
 
     @Test
-    public void should_return_not_found_status_when_call_get_company_by_id_api_given_wrong_company_id() throws Exception {
+    public void should_return_not_found_status_when_call_get_company_by_id_api_given_not_existing_company_id() throws Exception {
         // given
         Integer wrongCompanyId = 0;
 
@@ -179,6 +179,16 @@ public class CompanyIntegrationTest {
         mockMvc.perform(get(format("/companies/%d", returnedCompanyId)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(format("Company ID %d not found.", returnedCompanyId)));
+    }
+
+    @Test
+    public void should_return_not_found_status_when_call_delete_company_by_id_api_given_not_existing_company_id() throws Exception {
+        // given
+        // when
+        // then
+        mockMvc.perform(delete(format("/companies/%d", 0)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(format("Company ID %d not found.", 0)));
     }
 
     private List<Company> companiesDataFactory() {
