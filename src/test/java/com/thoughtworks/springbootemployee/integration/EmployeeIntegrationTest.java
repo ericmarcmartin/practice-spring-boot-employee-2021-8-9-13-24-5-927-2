@@ -181,6 +181,10 @@ public class EmployeeIntegrationTest {
         // then
         mockMvc.perform(delete(format("/employees/%d", employeeIdToBeDeleted)))
                 .andExpect(status().isOk());
+        mockMvc.perform(get(format("/employees/%d", employeeIdToBeDeleted)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(format("Employee ID %d not found.", employeeIdToBeDeleted)));
+
     }
 
     private List<Company> companiesDataFactory() {
