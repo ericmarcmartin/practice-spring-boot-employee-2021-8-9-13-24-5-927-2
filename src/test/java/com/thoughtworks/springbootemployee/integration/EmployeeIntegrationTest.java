@@ -187,6 +187,17 @@ public class EmployeeIntegrationTest {
 
     }
 
+    @Test
+    public void should_return_not_found_status_when_call_delete_employee_api_given_not_existing_employee_id() throws Exception {
+        // given
+
+        // when
+        // then
+        mockMvc.perform(delete(format("/employees/%d", 0)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(format("Employee ID %d not found.", 0)));
+    }
+
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
         List<Employee> employees1 = new ArrayList<>();
