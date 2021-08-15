@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.dto;
 
-import javax.persistence.*;
+import javax.persistence.JoinColumn;
 
 
 public class EmployeeRequest {
