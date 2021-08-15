@@ -53,7 +53,6 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].companyName").value("Alibaba"))
                 .andExpect(jsonPath("$[0].employees").isArray());
-
     }
 
     @Test

@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -120,8 +121,9 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_create_employee_when_call_create_employee_api_with_company_id() throws Exception {
         // given
-        Integer companyId = companyRepository.save(companiesDataFactory().get(0)).getId();
-        String employeeJson = "{\n" +
+        Company company = new Company("Alibaba", Collections.emptyList());
+        Integer companyId = company.getId();
+        companyRepository.save(company);String employeeJson = "{\n" +
                 "    \"name\": \"Spongebob\",\n" +
                 "    \"age\": 24,\n" +
                 "    \"gender\": \"male\",\n" +
