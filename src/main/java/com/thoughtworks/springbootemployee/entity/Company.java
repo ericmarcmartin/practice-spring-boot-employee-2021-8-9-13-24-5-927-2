@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 public class Company {
     @Id
@@ -11,7 +13,7 @@ public class Company {
     private Integer id;
     private String companyName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
+    @OneToMany(mappedBy = "companyId", fetch = LAZY)
     private List<Employee> employees;
 
     public Company(Integer id, String companyName, List<Employee> employees) {

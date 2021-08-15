@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 @Service
 public class CompanyService {
 
@@ -34,12 +36,17 @@ public class CompanyService {
     public Company getById(Integer companyId) {
         return companyRepository
                 .findById(companyId)
-                .orElseThrow(() -> new EmployeeNotFoundException(companyId));
+                .orElseThrow(() -> new CompanyDoesNotExistException(companyId));
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        return employeeRepository.findAll().stream().filter(employee -> employee.getCompanyId().equals(companyId))
-                .collect(Collectors.toList());
+        List<Employee> list = new ArrayList<>();
+        for (Employee employee : employeeRepository.findAll()) {
+            if (nonNull(employee.getCompanyId()) && employee.getCompanyId().equals(companyId)) {
+                list.add(employee);
+            }
+        }
+        return list;
     }
 
     public List<Company> getByPageIndexAndPageSize(Integer pageIndex, int pageSize) {
@@ -65,6 +72,6 @@ public class CompanyService {
     public void delete(Integer companyId) {
         companyRepository
                 .delete(companyRepository.findById(companyId)
-                        .orElseThrow(() -> new CompanyDoesNotExistException(companyId.toString())));
+                        .orElseThrow(() -> new CompanyDoesNotExistException(companyId)));
     }
 }
