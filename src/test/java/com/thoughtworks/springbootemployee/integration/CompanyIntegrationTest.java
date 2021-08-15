@@ -4,7 +4,6 @@ import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -166,7 +162,24 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].companyId").value(returnedCompanyId));
     }
 
+    @Test
+    public void should_remove_company_when_call_delete_company_api_given_company_id() throws Exception {
+        // given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("Spongebob", 22, "Male", 99, 1));
 
+        Company company = new Company("Krusty Krabs", employees);
+        Integer returnedCompanyId = companyRepository.save(company).getId();
+
+        // when
+        // then
+        mockMvc.perform(delete(format("/companies/%d", returnedCompanyId)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get(format("/companies/%d", returnedCompanyId)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(format("Company ID %d not found.", returnedCompanyId)));
+    }
 
     private List<Company> companiesDataFactory() {
         List<Company> companies = new ArrayList<>();
@@ -195,7 +208,7 @@ public class CompanyIntegrationTest {
         employees.add(new Employee(4, "Patrick", 22, "male", 99));
         employees.add(new Employee(5, "Gary", 24, "male", 99));
         employees.add(new Employee(6, "Squidward", 22, "male", 99));
-        employees.add(new Employee( "Sandy", 22, "female", 99, 1));
+        employees.add(new Employee("Sandy", 22, "female", 99, 1));
 
         return employees;
     }
